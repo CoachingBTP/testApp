@@ -1,0 +1,13 @@
+{
+	"name": "elenco-task",
+	"version": "1.0.0",
+	"private": true,
+	"description": "Elenco task SAPUI5, JavaScript",
+	"scripts": {
+		"start": "ui5 serve --open index.html",
+		"build": "ui5 build --clean-dest"
+	},
+	"devDependencies": {
+		"@ui5/cli": "^4.0.0"
+	}
+}

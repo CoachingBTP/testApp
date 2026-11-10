@@ -1,0 +1,171 @@
+<!--
+	Disegno della pagina. I testi arrivano da i18n con {i18n>nome}.
+	I dati dei task arrivano dal JSONModel con {description}, {/tasks}, ecc.
+	Il punto davanti a un metodo (".onSearch") chiama il controller.
+-->
+<mvc:View
+	controllerName="com.ticketing.tasks.controller.App"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns="sap.m"
+	displayBlock="true">
+	<Page id="tasksPage" title="{i18n>appTitle}" class="tasksPage">
+		<content>
+			<VBox class="sapUiSmallMargin">
+				<!-- Ricerca sulla descrizione. liveChange scatta a ogni lettera. -->
+				<SearchField
+					id="searchField"
+					width="100%"
+					placeholder="{i18n>searchPlaceholder}"
+					liveChange=".onSearch"
+					search=".onSearch"/>
+				<Text text="{i18n>searchHint}" class="sapUiTinyMarginTop"/>
+
+				<VBox class="tasksFilters">
+					<Title text="{i18n>filtersTitle}" level="H3" class="sapUiTinyMarginBottom"/>
+					<HBox wrap="Wrap" alignItems="End">
+						<!-- Filtro descrizione: la descrizione deve contenere il testo. -->
+						<VBox class="tasksField">
+							<Label text="{i18n>description}" labelFor="filterDescription"/>
+							<Input
+								id="filterDescription"
+								placeholder="{i18n>descriptionPlaceholder}"
+								liveChange=".onFilterChange"/>
+						</VBox>
+						<!-- Data di inizio: l'utente vede gg/mm/aaaa, il confronto usa anno-mese-giorno. -->
+						<VBox class="tasksFieldShort">
+							<Label text="{i18n>startDate}" labelFor="filterStart"/>
+							<DatePicker
+								id="filterStart"
+								displayFormat="dd/MM/yyyy"
+								valueFormat="yyyy-MM-dd"
+								change=".onFilterChange"/>
+						</VBox>
+						<!-- Data di fine: stesso formato della data di inizio. -->
+						<VBox class="tasksFieldShort">
+							<Label text="{i18n>endDate}" labelFor="filterEnd"/>
+							<DatePicker
+								id="filterEnd"
+								displayFormat="dd/MM/yyyy"
+								valueFormat="yyyy-MM-dd"
+								change=".onFilterChange"/>
+						</VBox>
+						<!-- Chiave vuota = Tutte, e in quel caso il controller non filtra. -->
+						<VBox class="tasksFieldShort">
+							<Label text="{i18n>priority}" labelFor="filterPriority"/>
+							<Select id="filterPriority" width="100%" change=".onFilterChange" selectedKey="">
+								<core:Item key="" text="{i18n>all}"/>
+								<core:Item key="Alta" text="{i18n>priorityHigh}"/>
+								<core:Item key="Media" text="{i18n>priorityMedium}"/>
+								<core:Item key="Bassa" text="{i18n>priorityLow}"/>
+							</Select>
+						</VBox>
+						<!-- Voci lette dal modello "filters", percorso /people, riempito dal controller. -->
+						<VBox class="tasksField">
+							<Label text="{i18n>responsible}" labelFor="filterPerson"/>
+							<Select
+								id="filterPerson"
+								width="100%"
+								change=".onFilterChange"
+								selectedKey=""
+								items="{filters>/people}">
+								<core:Item key="{filters>key}" text="{filters>text}"/>
+							</Select>
+						</VBox>
+						<Button id="clearButton" text="{i18n>clear}" press=".onClear" type="Transparent" class="tasksClear"/>
+					</HBox>
+				</VBox>
+
+				<!--
+					Tabella dei task. items="{/tasks}" crea una riga per ogni task del JSON.
+					updateFinished aggiorna il contatore. noDataText esce se non resta nessun task.
+				-->
+				<Table
+					id="tasksTable"
+					items="{/tasks}"
+					growing="true"
+					growingThreshold="20"
+					noDataText="{i18n>noDataText}"
+					updateFinished=".onUpdateFinished"
+					class="sapUiSmallMarginTop">
+					<headerToolbar>
+						<OverflowToolbar>
+							<Title text="{i18n>tableTitle}" level="H2"/>
+							<ToolbarSpacer/>
+							<Text id="countText"/>
+						</OverflowToolbar>
+					</headerToolbar>
+					<columns>
+						<Column>
+							<Text text="{i18n>description}"/>
+						</Column>
+						<!-- Su schermo stretto queste colonne vanno sotto la descrizione. -->
+						<Column width="9rem" hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
+							<Text text="{i18n>startDate}"/>
+						</Column>
+						<Column width="9rem" hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
+							<Text text="{i18n>endDate}"/>
+						</Column>
+						<Column width="8rem" minScreenWidth="Tablet" demandPopin="true">
+							<Text text="{i18n>priority}"/>
+						</Column>
+						<Column width="12rem" minScreenWidth="Tablet" demandPopin="true">
+							<Text text="{i18n>responsible}"/>
+						</Column>
+						<!-- Sempre visibile, anche su schermo stretto: niente demandPopin. -->
+						<Column width="13rem" hAlign="Center">
+							<Text text="{i18n>showDetail}"/>
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem vAlign="Top">
+							<cells>
+								<!-- Descrizione del task e, se aperta, la sezione progetto sotto. -->
+								<VBox>
+									<Text text="{description}"/>
+									<VBox visible="{expanded}" class="projectDetail">
+										<Title text="{i18n>projectSection}" level="H4" class="sapUiTinyMarginBottom"/>
+										<HBox wrap="Wrap">
+											<VBox class="projectField">
+												<Label text="{i18n>projectName}"/>
+												<Text text="{projectName}"/>
+											</VBox>
+											<VBox class="projectField">
+												<Label text="{i18n>projectCode}"/>
+												<Text text="{projectCode}"/>
+											</VBox>
+											<VBox class="projectField">
+												<Label text="{i18n>projectStartDate}"/>
+												<Text text="{path: 'projectStartDate', formatter: '.formatDate'}"/>
+											</VBox>
+											<VBox class="projectField">
+												<Label text="{i18n>projectEndDateZero}"/>
+												<Text text="{path: 'projectEndDateZero', formatter: '.formatDate'}"/>
+											</VBox>
+											<VBox class="projectField">
+												<Label text="{i18n>projectEndDateUpdated}"/>
+												<Text text="{path: 'projectEndDateUpdated', formatter: '.formatDate'}"/>
+											</VBox>
+										</HBox>
+									</VBox>
+								</VBox>
+								<!-- formatDate e formatPriorityState sono metodi del controller. -->
+								<Text text="{path: 'startDate', formatter: '.formatDate'}"/>
+								<Text text="{path: 'endDate', formatter: '.formatDate'}"/>
+								<ObjectStatus
+									text="{priority}"
+									state="{path: 'priority', formatter: '.formatPriorityState'}"/>
+								<Text text="{responsible}"/>
+								<Button
+									text="{= ${expanded} ? 'Chiudi' : 'Approfondisci' }"
+									class="custombtnTask"
+									width="100%"
+									press=".onToggleDetail"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+			</VBox>
+		</content>
+	</Page>
+</mvc:View>

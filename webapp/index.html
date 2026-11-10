@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Elenco task</title>
+	<!--
+		Senza altezza 100% la pagina SAPUI5 resta alta solo quanto
+		la barra del titolo e il resto non si vede.
+	-->
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+		body > div:not(#sap-ui-static):not(#sap-ui-preserve),
+		#container,
+		#container-uiarea,
+		.sapUiView,
+		.sapMPage {
+			height: 100%;
+		}
+	</style>
+	<!--
+		In Business Application Studio la libreria arriva da ui5 serve
+		(resources/sap-ui-core.js), non dal sito SAP scritto per esteso.
+		data-sap-ui-resourceroots: com.ticketing.tasks è questa cartella webapp.
+	-->
+	<script
+		id="sap-ui-bootstrap"
+		src="resources/sap-ui-core.js"
+		data-sap-ui-theme="sap_horizon"
+		data-sap-ui-libs="sap.m"
+		data-sap-ui-language="it"
+		data-sap-ui-compatVersion="edge"
+		data-sap-ui-async="true"
+		data-sap-ui-onInit="module:sap/ui/core/ComponentSupport"
+		data-sap-ui-resourceroots='{"com.ticketing.tasks": "./"}'
+		data-sap-ui-frameOptions="trusted">
+	</script>
+</head>
+<body class="sapUiBody" id="content">
+	<!-- Punto in cui viene disegnata l'app. Il nome deve coincidere con Component.js. -->
+	<div
+		data-sap-ui-component
+		data-name="com.ticketing.tasks"
+		data-id="container"
+		data-settings='{"id": "tasks"}'
+		data-handle-validation="true">
+	</div>
+</body>
+</html>

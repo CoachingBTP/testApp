@@ -1,0 +1,54 @@
+/* Sfondo della pagina, preso dal tema SAP se c'e', altrimenti grigio chiaro. */
+.tasksPage {
+	background: var(--sapBackgroundColor, #f5f6f7);
+}
+
+/* Riquadro bianco intorno ai filtri. */
+.tasksFilters {
+	background: var(--sapGroup_ContentBackground, #fff);
+	border-radius: 0.5rem;
+	padding: 1rem 1rem 0.25rem;
+	margin-top: 0.75rem;
+	box-shadow: var(--sapContent_Shadow0, 0 0 0.125rem rgba(34, 53, 72, 0.2));
+}
+
+/* Larghezza dei campi Descrizione e Persona responsabile. */
+.tasksField {
+	width: 16rem;
+	max-width: 100%;
+	margin: 0 1rem 0.75rem 0;
+}
+
+/* Larghezza di date e priorita'. */
+.tasksFieldShort {
+	width: 12rem;
+	max-width: 100%;
+	margin: 0 1rem 0.75rem 0;
+}
+
+/* Spazio sotto il pulsante Pulisci, allineato ai campi. */
+.tasksClear {
+	margin: 0 0 0.75rem 0;
+}
+
+/* Sezione progetto sotto il task, dopo Approfondisci. */
+.projectDetail {
+	margin-top: 0.75rem;
+	padding: 0.75rem 1rem;
+	background: var(--sapGroup_ContentBackground, #fff);
+	border: 0.0625rem solid var(--sapGroup_ContentBorderColor, #d9d9d9);
+	border-radius: 0.5rem;
+}
+
+.projectField {
+	min-width: 12rem;
+	margin: 0 1.5rem 0.5rem 0;
+}
+
+.custombtnTask .sapMBtnInner {
+	background-color: #f5c518;
+}
+
+.custombtnTask .sapMBtnText {
+	color: #000000;
+}
