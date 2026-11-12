@@ -32,6 +32,23 @@
 								placeholder="{i18n>descriptionPlaceholder}"
 								liveChange=".onFilterChange"/>
 						</VBox>
+
+
+						<!-- Filtro area: l'area' deve contenere il testo. -->
+						<VBox class="tasksField">
+							<Label text="{i18n>area}" labelFor="filterArea"/>
+							<Select
+								id="filterArea"
+								width="100%"
+								change=".onFilterChange"
+								selectedKey=""
+								items="{filters>/area}">
+								<core:Item key="{filters>key}" text="{filters>text}"/>
+							</Select>
+						</VBox>
+
+
+
 						<!-- Data di inizio: l'utente vede gg/mm/aaaa, il confronto usa anno-mese-giorno. -->
 						<VBox class="tasksFieldShort">
 							<Label text="{i18n>startDate}" labelFor="filterStart"/>
@@ -99,6 +116,13 @@
 						<Column>
 							<Text text="{i18n>description}"/>
 						</Column>
+
+						<!-- Area. -->
+						
+						<Column width="12rem" minScreenWidth="Tablet" demandPopin="true">
+							<Text text="{i18n>area}"/>
+						</Column>
+
 						<!-- Su schermo stretto queste colonne vanno sotto la descrizione. -->
 						<Column width="9rem" hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
 							<Text text="{i18n>startDate}"/>
@@ -117,6 +141,7 @@
 							<Text text="{i18n>showDetail}"/>
 						</Column>
 					</columns>
+					
 					<items>
 						<ColumnListItem vAlign="Top">
 							<cells>
@@ -150,6 +175,7 @@
 									</VBox>
 								</VBox>
 								<!-- formatDate e formatPriorityState sono metodi del controller. -->
+								<Text text="{area}"/>
 								<Text text="{path: 'startDate', formatter: '.formatDate'}"/>
 								<Text text="{path: 'endDate', formatter: '.formatDate'}"/>
 								<ObjectStatus

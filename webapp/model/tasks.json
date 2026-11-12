@@ -2,6 +2,7 @@
 	"tasks": [
 		{
 			"description": "Verificare anomalia fatturazione cliente Rossi su SAP FI",
+			"area": "Finance",
 			"startDate": "2026-10-01",
 			"endDate": "2026-10-08",
 			"priority": "Alta",
@@ -15,6 +16,7 @@
 		},
 		{
 			"description": "Aggiornare anagrafica fornitori dopo fusione societaria",
+			"area": "Administration",
 			"startDate": "2026-10-02",
 			"endDate": "2026-10-15",
 			"priority": "Media",
@@ -28,6 +30,7 @@
 		},
 		{
 			"description": "Chiudere ticket blocco ordine di vendita SD",
+			"area": "Outbound Logistic",
 			"startDate": "2026-10-03",
 			"endDate": "2026-10-06",
 			"priority": "Alta",
@@ -41,6 +44,7 @@
 		},
 		{
 			"description": "Preparare report mensile ticket aperti e chiusi",
+			"area": "IT",
 			"startDate": "2026-10-06",
 			"endDate": "2026-10-10",
 			"priority": "Bassa",
@@ -54,6 +58,7 @@
 		},
 		{
 			"description": "Allineare listino prezzi dopo variazione IVA",
+			"area": "Accounting",
 			"startDate": "2026-10-07",
 			"endDate": "2026-10-20",
 			"priority": "Media",
@@ -67,6 +72,7 @@
 		},
 		{
 			"description": "Analizzare errore batch notturno su magazzino MM",
+			"area": "Inbound Logistic",
 			"startDate": "2026-10-04",
 			"endDate": "2026-10-09",
 			"priority": "Alta",
@@ -80,6 +86,7 @@
 		},
 		{
 			"description": "Formare il team sul nuovo flusso di approvazione ticket",
+			"area": "IT",
 			"startDate": "2026-10-13",
 			"endDate": "2026-10-17",
 			"priority": "Bassa",
@@ -93,6 +100,7 @@
 		},
 		{
 			"description": "Correggere doppione anagrafica cliente nel gestionale",
+			"area": "IT",
 			"startDate": "2026-10-08",
 			"endDate": "2026-10-12",
 			"priority": "Media",
@@ -106,6 +114,7 @@
 		},
 		{
 			"description": "Ripristinare stampa fattura PDF per il cliente Bianchi",
+			"area": "Accounting",
 			"startDate": "2026-10-09",
 			"endDate": "2026-10-11",
 			"priority": "Alta",
@@ -119,6 +128,7 @@
 		},
 		{
 			"description": "Documentare procedura di chiusura ticket urgente",
+			"area": "IT",
 			"startDate": "2026-10-14",
 			"endDate": "2026-10-21",
 			"priority": "Bassa",
@@ -132,6 +142,7 @@
 		},
 		{
 			"description": "Controllare autorizzazioni utente sul modulo SAP HR",
+			"area": "HR",
 			"startDate": "2026-10-05",
 			"endDate": "2026-10-18",
 			"priority": "Media",
@@ -145,6 +156,7 @@
 		},
 		{
 			"description": "Pianificare rilascio correttiva fatturazione di ottobre",
+			"area": "Accounting",
 			"startDate": "2026-10-16",
 			"endDate": "2026-10-24",
 			"priority": "Alta",

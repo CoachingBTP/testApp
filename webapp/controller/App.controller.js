@@ -22,11 +22,24 @@ sap.ui.define([
 			oView.setModel(new JSONModel({
 				people: [{ key: "", text: "Tutte" }]
 			}), "filters");
+			
+
+			// solo per Area
+			oView.setModel(new JSONModel({
+				area: [{ key: "", text: "Tutte" }]
+			}), "filters");
+
+
 
 			// Legge model/tasks.json e riempie /tasks.
 			oModel.loadData(sap.ui.require.toUrl("com/ticketing/tasks/model/tasks.json"));
 			// Quando il file e' arrivato, costruisce l'elenco delle persone.
 			oModel.attachRequestCompleted(this._fillPeople, this);
+
+			// Quando il file e' arrivato, costruisce l'elenco delle aree.
+			oModel.attachRequestCompleted(this._fillArea, this);
+			
+
 		},
 
 		// Ricerca: a ogni lettera richiama gli stessi filtri della tabella.
@@ -43,6 +56,7 @@ sap.ui.define([
 		onClear: function () {
 			this.byId("searchField").setValue("");
 			this.byId("filterDescription").setValue("");
+			this.byId("filterArea").setSelectedKey("");
 			this.byId("filterStart").setValue("");
 			this.byId("filterEnd").setValue("");
 			this.byId("filterPriority").setSelectedKey("");
@@ -127,12 +141,47 @@ sap.ui.define([
 			this.getView().getModel("filters").setProperty("/people", aPersone);
 		},
 
+		//verifica questa modifica
+
+		// Legge i task e riempie il menu delle persone, senza nomi doppi.
+		_fillArea: function () {
+			var aTask = this.getView().getModel().getProperty("/tasks") || [];
+			var oVisti = {};
+			var aArea = [{ key: "", text: "Tutte" }];
+
+			aTask.forEach(function (oTask) {
+				if (oTask.area && !oVisti[oTask.area]) {
+					oVisti[oTask.area] = true;
+					aArea.push({
+						key: oTask.area,
+						text: oTask.area
+					});
+				}
+			});
+
+			// "Tutte" resta in cima. Gli altri nomi vanno in ordine alfabetico italiano.
+			aArea.sort(function (a, b) {
+				if (!a.key) {
+					return -1;
+				}
+				if (!b.key) {
+					return 1;
+				}
+				return a.text.localeCompare(b.text, "it");
+			});
+
+			this.getView().getModel("filters").setProperty("/area", aArea);
+		},
+
+
+
 		// Applica insieme ricerca e filtri. Un task resta visibile solo se li rispetta tutti.
 		// Un campo vuoto, o "Tutte", non filtra.
 		_applyFilters: function () {
 			var aFiltri = [];
 			var sRicerca = this.byId("searchField").getValue().trim();
 			var sDescrizione = this.byId("filterDescription").getValue().trim();
+			var sArea = this.byId("filterArea").getSelectedKey();
 			var sInizio = this.byId("filterStart").getValue();
 			var sFine = this.byId("filterEnd").getValue();
 			var sPriorita = this.byId("filterPriority").getSelectedKey();
@@ -145,6 +194,11 @@ sap.ui.define([
 			if (sDescrizione) {
 				aFiltri.push(this._filtroContiene("description", sDescrizione));
 			}
+
+			if (sArea) {
+				aFiltri.push(new Filter("area", "EQ", sArea));
+			}
+			
 			// Le date confrontano il giorno esatto (EQ = uguale).
 			// Il valore e' anno-mese-giorno, come nel file JSON.
 			if (sInizio) {
